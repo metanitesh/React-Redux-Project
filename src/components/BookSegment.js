@@ -10,11 +10,12 @@ export default class BookSegment extends Component {
   }
 
   render() {
-    const {books} = this.props
+    const {books, name} = this.props
+    
     return (
     
       <div className="bookshelf">
-        <h2 className="bookshelf-title">{this.props.name}</h2>
+        <h2 className="bookshelf-title">{name}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
             <Books books={books}/>
