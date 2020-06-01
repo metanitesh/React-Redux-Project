@@ -1,8 +1,10 @@
 import React from 'react'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
-import BookSegment from './components/BookSegment'
 import { CURRENTLY_READING, WANT_TO_READ, READ, NONE } from './Constant'
+import {Route} from 'react-router-dom'
+import DashBoard from './Dashboard'
+import SearchPage from './Searchpage'
 
 class BooksApp extends React.Component {
   state = {
@@ -52,42 +54,42 @@ class BooksApp extends React.Component {
       "infoLink": "https://play.google.com/store/books/details?id=Gv7oh_ukn3QC&source=gbs_api",
       "canonicalVolumeLink": "https://market.android.com/details?id=book-Gv7oh_ukn3QC",
       "id": "Gv7oh_ukn3QC"
-  }],
-  [WANT_TO_READ]:[{
-    "title": "Travel",
-    "publishedDate": "1914",
-    "industryIdentifiers": [
-        {
-            "type": "OTHER",
-            "identifier": "STANFORD:36105117062443"
-        }
-    ],
-    "readingModes": {
-        "text": false,
-        "image": true
-    },
-    "printType": "BOOK",
-    "categories": [
-        "Travel"
-    ],
-    "maturityRating": "NOT_MATURE",
-    "allowAnonLogging": false,
-    "contentVersion": "0.1.0.0.full.1",
-    "panelizationSummary": {
-        "containsEpubBubbles": false,
-        "containsImageBubbles": false
-    },
-    "imageLinks": {
-        "smallThumbnail": "http://books.google.com/books/content?id=nzJQAQAAIAAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
-        "thumbnail": "http://books.google.com/books/content?id=nzJQAQAAIAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-    },
-    "language": "en",
-    "previewLink": "http://books.google.com/books?id=nzJQAQAAIAAJ&printsec=frontcover&dq=travel&hl=&cd=3&source=gbs_api",
-    "infoLink": "https://play.google.com/store/books/details?id=nzJQAQAAIAAJ&source=gbs_api",
-    "canonicalVolumeLink": "https://market.android.com/details?id=book-nzJQAQAAIAAJ",
-    "id": "nzJQAQAAIAAJ"
-  }],
-  [READ]:[{
+    }],
+    [WANT_TO_READ]:[{
+      "title": "Travel",
+      "publishedDate": "1914",
+      "industryIdentifiers": [
+          {
+              "type": "OTHER",
+              "identifier": "STANFORD:36105117062443"
+          }
+      ],
+      "readingModes": {
+          "text": false,
+          "image": true
+      },
+      "printType": "BOOK",
+      "categories": [
+          "Travel"
+      ],
+      "maturityRating": "NOT_MATURE",
+      "allowAnonLogging": false,
+      "contentVersion": "0.1.0.0.full.1",
+      "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+      },
+      "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=nzJQAQAAIAAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=nzJQAQAAIAAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+      },
+      "language": "en",
+      "previewLink": "http://books.google.com/books?id=nzJQAQAAIAAJ&printsec=frontcover&dq=travel&hl=&cd=3&source=gbs_api",
+      "infoLink": "https://play.google.com/store/books/details?id=nzJQAQAAIAAJ&source=gbs_api",
+      "canonicalVolumeLink": "https://market.android.com/details?id=book-nzJQAQAAIAAJ",
+      "id": "nzJQAQAAIAAJ"
+    }],
+    [READ]:[{
     "title": "The Travel Book",
     "subtitle": "A Journey Through Every Country in the World",
     "authors": [
@@ -128,7 +130,7 @@ class BooksApp extends React.Component {
     "infoLink": "http://books.google.com/books?id=QfdOYgEACAAJ&dq=travel&hl=&source=gbs_api",
     "canonicalVolumeLink": "https://books.google.com/books/about/The_Travel_Book.html?hl=&id=QfdOYgEACAAJ",
     "id": "QfdOYgEACAAJ"
-}]
+    }]
   
   
     /**
@@ -166,48 +168,18 @@ class BooksApp extends React.Component {
 
   render() {
 
-    const {categories} = this.state;
+    // const {data} = this.state;
 
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
-              <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
+      <Route exact path="/" render={()=> (
+        <DashBoard data={this.state} updateCategory={this.updateCategory} />
+      )} />
 
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author"/>
-
-              </div>
-            </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
-          </div>
-        ) : (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
-              <div>
-                {categories.map( name => (
-                  <BookSegment key={name} books={this.state[name]} name={name} updateCategory={this.updateCategory}/>
-                ))}
-              </div>
-            </div>
-            <div className="open-search">
-              <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
-            </div>
-          </div>
-        )}
+      <Route exact path="/search" render={()=> (
+        <SearchPage />
+      )} />
+      
       </div>
     )
   }
