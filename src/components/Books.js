@@ -5,17 +5,19 @@ import Book from './Book'
 
 export default class Books extends Component {
   static propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    updateCategory: PropTypes.func.isRequired,
+    category:PropTypes.string.isRequired
   }
 
   render() {
-    const {books} = this.props
+    const {books, updateCategory, category} = this.props
 
     return (
       <>
       {books.map( book => {
         return (
-          <Book book={book} key={book.id}/>
+          <Book book={book} key={book.id} updateCategory={updateCategory} category={category}/>
         )
       })}
       </>

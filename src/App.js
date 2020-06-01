@@ -2,12 +2,12 @@ import React from 'react'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
 import BookSegment from './components/BookSegment'
-
+import { CURRENTLY_READING, WANT_TO_READ, READ, NONE } from './Constant'
 
 class BooksApp extends React.Component {
   state = {
-    "categories":["Currently Reading", "Want to Read", "Read"],
-    "Currently Reading":[{
+    "categories":[ CURRENTLY_READING, WANT_TO_READ, READ ],
+    [CURRENTLY_READING]:[{
       "title": "Travels",
       "authors": [
           "Michael Crichton"
@@ -53,7 +53,7 @@ class BooksApp extends React.Component {
       "canonicalVolumeLink": "https://market.android.com/details?id=book-Gv7oh_ukn3QC",
       "id": "Gv7oh_ukn3QC"
   }],
-  "Want to Read":[{
+  [WANT_TO_READ]:[{
     "title": "Travel",
     "publishedDate": "1914",
     "industryIdentifiers": [
@@ -87,7 +87,7 @@ class BooksApp extends React.Component {
     "canonicalVolumeLink": "https://market.android.com/details?id=book-nzJQAQAAIAAJ",
     "id": "nzJQAQAAIAAJ"
   }],
-  "Read":[{
+  [READ]:[{
     "title": "The Travel Book",
     "subtitle": "A Journey Through Every Country in the World",
     "authors": [
@@ -140,7 +140,34 @@ class BooksApp extends React.Component {
     
   }
 
+  updateCategory = (from, to, book) => {
+
+    if(from === to){
+      return 
+    }
+
+    this.setState( prev => {
+  
+      const removeFrom = prev[from].filter( currentBook => currentBook.id !== book.id);
+      let addTo = prev[to];
+
+      if(to !== NONE){
+        addTo = prev[to].concat(book);
+      }
+
+      return {
+        [from]: removeFrom,
+        [to]: addTo
+      }
+    })
+  
+  }
+
+
   render() {
+
+    const {categories} = this.state;
+
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -171,8 +198,8 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                {this.state.categories.map( name => (
-                  <BookSegment key={name} books={this.state[name]} name={name}/>
+                {categories.map( name => (
+                  <BookSegment key={name} books={this.state[name]} name={name} updateCategory={this.updateCategory}/>
                 ))}
               </div>
             </div>
