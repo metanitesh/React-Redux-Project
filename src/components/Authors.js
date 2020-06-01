@@ -2,12 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 export default function Author(props) {
+  const {authors} = props;
+
   return (
     <div>
       { 
-        props.authors && 
-        props.authors.length &&
-        props.authors.map(author => <div key={author}>{author}</div>)
+        authors && 
+        authors.length &&
+        authors.map(author => <div key={author}>{author}</div>)
       }
     </div>
   );

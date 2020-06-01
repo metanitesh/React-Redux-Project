@@ -9,9 +9,11 @@ export default class Books extends Component {
   }
 
   render() {
+    const {books} = this.props
+
     return (
       <>
-      {this.props.books.map( book => {
+      {books.map( book => {
         return (
           <Book book={book} key={book.id}/>
         )
