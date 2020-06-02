@@ -1,5 +1,5 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+
 import './App.css'
 import { CURRENTLY_READING, WANT_TO_READ, READ, NONE } from './Constant'
 import {Route} from 'react-router-dom'
@@ -150,11 +150,16 @@ class BooksApp extends React.Component {
 
     this.setState( prev => {
   
-      const removeFrom = prev[from].filter( currentBook => currentBook.id !== book.id);
+      
       let addTo = prev[to];
+      let removeFrom = prev[from];
 
       if(to !== NONE){
         addTo = prev[to].concat(book);
+      }
+
+      if(from !== NONE){
+        removeFrom = prev[from].filter( currentBook => currentBook.id !== book.id);
       }
 
       return {
@@ -177,7 +182,7 @@ class BooksApp extends React.Component {
       )} />
 
       <Route exact path="/search" render={()=> (
-        <SearchPage />
+        <SearchPage updateCategory={this.updateCategory} books={this.state.books}/>
       )} />
       
       </div>
