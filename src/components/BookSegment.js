@@ -6,28 +6,28 @@ import Books from './Books'
 export default class BookSegment extends Component {
   static propTypes = {
     books: PropTypes.array.isRequired,
-    name: PropTypes.string.isRequired,
-    updateCategory: PropTypes.func.isRequired
+    shelf: PropTypes.string.isRequired,
+    updateShelf: PropTypes.func.isRequired
   }
 
   render() {
-    const {books, name, updateCategory} = this.props
-    
+    const {books, shelf, updateShelf} = this.props
     return (
       <>
-      {
-        books.length ? 
         <div className="bookshelf">
-          <h2 className="bookshelf-title">{name}</h2>
+          <h2 className="bookshelf-title">{shelf}</h2>
           <div className="bookshelf-books">
             <ol className="books-grid">
-              <Books books={books} updateCategory={updateCategory} category={name}/>
+              {
+                
+                books.length
+                ? <Books books={books} updateShelf={updateShelf} shelf={shelf}/>
+                : <h3> No book added yet. </h3>
+              }
+             
             </ol>
           </div>
         </div>
-        : <></>
-      }
-      
       </>
     )
   }

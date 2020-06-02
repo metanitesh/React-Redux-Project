@@ -5,13 +5,14 @@ import {Link} from 'react-router-dom'
 
 export default class DashBoard extends Component {
   static propTypes = {
-    data : PropTypes.object.isRequired,
-    updateCategory: PropTypes.func.isRequired
+    books : PropTypes.array.isRequired,
+    updateShelf: PropTypes.func.isRequired,
+    shelves: PropTypes.array.isRequired
   }
 
   render() {
 
-    const {data, updateCategory} = this.props
+    const {books, shelves, updateShelf} = this.props
 
     return (
       <div className="list-books">
@@ -20,9 +21,10 @@ export default class DashBoard extends Component {
           </div>
           <div className="list-books-content">
             <div>
-              {data.categories.map( name => (
-                <BookSegment key={name} books={data[name]} name={name} updateCategory={updateCategory}/>
-              ))}
+              {shelves.map( name => {
+                const booksByShelf= books.filter(book => book.shelf === name)
+                return <BookSegment key={name} books={booksByShelf} shelf={name} updateShelf={updateShelf}/>
+              })}
             </div>
           </div>
           <div className="open-search">

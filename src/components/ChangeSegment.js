@@ -4,8 +4,9 @@ import { CURRENTLY_READING, WANT_TO_READ, READ, NONE } from './../Constant'
 
 export default class ChangeSegment extends Component {
   static propTypes = {
-    updateCategory: PropTypes.func.isRequired,
-    book: PropTypes.object.isRequired
+    book: PropTypes.object.isRequired,
+    shelf: PropTypes.string.isRequired,
+    updateShelf: PropTypes.func.isRequired
   }
 
   state = {
@@ -15,19 +16,21 @@ export default class ChangeSegment extends Component {
 
   componentDidMount(){
     this.setState({
-      value: this.props.category
+      value: this.props.shelf
     })
   }
 
   handleChange = (event) =>{
-    const {category, book, updateCategory} = this.props;
+    const {book, updateShelf} = this.props;
     const {value} = event.target;
     
     this.setState({
       value
     })
+    
+    book.shelf = value
 
-    updateCategory(category, value, book)
+    updateShelf(book)
   }
 
 

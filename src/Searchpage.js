@@ -7,7 +7,8 @@ import {NONE} from './Constant'
 
 export default class SearchPage extends Component {
   static propTypes = {
-    // updateCategory: PropTypes.func.required
+    books: PropTypes.array.isRequired,
+    updateShelf: PropTypes.func.isRequired
   }
 
   state ={
@@ -48,8 +49,14 @@ export default class SearchPage extends Component {
       })
   }
 
-  isBookInShelf(book){
-    
+  getShelf(book){
+    let category = NONE;
+
+    const userBook = this.props.books.filter(currentBook => book.id === currentBook.id)
+    if (userBook.length) category = userBook[0].shelf;
+
+    return category
+
   }
 
 
@@ -69,14 +76,8 @@ export default class SearchPage extends Component {
               <ol className="books-grid">
 
                 {this.state.books.map( book => {
-
-                  let category = NONE;
-
-                  if(this.isBookInShelf(book)) {
-                    category = book.category;
-                  }
-
-                  return <Book book={book} key={book.id} updateCategory={this.props.updateCategory} category={category}/>
+                  let shelf = this.getShelf(book)
+                  return <Book book={book} key={book.id} updateShelf={this.props.updateShelf} shelf={shelf}/>
                   })}
               </ol>
             </div>
